@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import BrowserHistory from './Components/BrowserHistory'
+import BrowserHistory from './components/BrowserHistory'
 
 import './App.css'
 
@@ -89,10 +89,10 @@ class App extends Component {
     this.setState({searchInput: event.target.value})
   }
 
-  onDeleteSearch = uniqueNo => {
+  onDeleteSearch = id => {
     const {searchDetailsList} = this.state
     const filteredSearchData = searchDetailsList.filter(
-      eachSearch => eachSearch.uniqueNo !== uniqueNo,
+      eachSearch => eachSearch.id !== id,
     )
     this.setState({searchDetailsList: filteredSearchData})
   }
@@ -100,32 +100,34 @@ class App extends Component {
   render() {
     const {searchInput, searchDetailsList} = this.state
     const searchResults = searchDetailsList.filter(eachSearch =>
-      eachSearch.name.includes(searchInput),
+      eachSearch.title.toLowerCase().includes(searchInput.toLowerCase()),
     )
 
     return (
-      <div className="app-container">
-        <div className="history-search-container">
-          <div className="history-container">
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
-              alt="domain logo"
-              className="domain-logo"
-            />
-          </div>
-          <div className="search-container">
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/search-img.png"
-              alt="search icon"
-              className="search-image"
-            />
-            <input
-              type="search"
-              className="search-input"
-              placeholder="Search history"
-              onClick={this.onClickSearchInput}
-              value={searchInput}
-            />
+      <>
+        <div className="app-container">
+          <div className="history-search-container">
+            <div className="history-container">
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/history-website-logo-img.png"
+                alt="app logo"
+                className="domain-logo"
+              />
+            </div>
+            <div className="search-container">
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/search-img.png"
+                alt="search icon"
+                className="search-image"
+              />
+              <input
+                type="search"
+                className="search-input"
+                placeholder="Search history"
+                onChange={this.onClickSearchInput}
+                value={searchInput}
+              />
+            </div>
           </div>
           <ul className="initial-list">
             {searchResults.map(eachSuggestion => (
@@ -137,7 +139,8 @@ class App extends Component {
             ))}
           </ul>
         </div>
-      </div>
+        ))
+      </>
     )
   }
 }
